@@ -1584,7 +1584,7 @@ body.light-theme .homepage-header::before {
 
         <main class='centered-bottom' id='main' role='main'>
           <b:section ads='true' class='main' id='page_body' name='Page Body' showaddelement='true'>
-            <b:widget id='Blog1' locked='false' title='Blog Posts' type='Blog' version='2' visible='true'>
+            <b:widget id='Blog1' locked='true' title='Blog Posts' type='Blog' version='2' visible='true'>
               <b:widget-settings>
                 <b:widget-setting name='showDateHeader'>false</b:widget-setting>
                 <b:widget-setting name='style.textcolor'>#ffffff</b:widget-setting>
@@ -3084,7 +3084,7 @@ body.light-theme .homepage-header::before {
          </div>
       </footer>
       
-      <b:section class='footer' id='footer' name='Footer' showaddelement='true' tag='div'/>
+      <b:section class='footer hidden' id='footer' name='Footer' showaddelement='true' tag='div'/>
       
       <!-- Noise Texture Overlay -->
       <div class='noise-overlay'></div>
