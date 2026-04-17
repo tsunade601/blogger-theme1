@@ -1520,7 +1520,6 @@ body#layout #footer-menu > h4:after{content:' - Footer Links'}
     </b:includable>
     <b:includable id='textlist-content'>
       <b:if cond='data:widget.sectionId == &quot;ify-panel&quot;'>
-          <b:comment>Removed external script injection</b:comment>
         <b:elseif cond='data:widget.sectionId == &quot;main-navbar-social&quot;'/>
         <ul class='social'>
           <b:loop index='i' values='data:items' var='item'>
