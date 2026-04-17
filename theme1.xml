@@ -404,6 +404,26 @@ body.feed-view .post-outer:hover .snippet-thumbnail img {
   font-size: 13px;
   font-weight: 500;
   margin-bottom: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.post-header .byline {
+  margin: 0;
+}
+
+.post-header .byline.post-author,
+.post-header .byline.post-timestamp {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.post-header .post-author-label,
+.post-header .byline-label {
+  color: var(--text-muted);
 }
 
 .post-header a { color: var(--text-muted); }
@@ -1468,13 +1488,9 @@ body.light-theme .homepage-header::before {
         </b:includable>
         
         <b:includable id='headerByline'>
-          <b:if cond='data:widgets.Blog.first.allBylineItems.labels and data:post.labels'>
-            <div class='byline post-labels'>
-              <b:loop index='i' values='data:post.labels' var='label'>
-                <a expr:href='data:label.url' rel='tag'><data:label.name/></a>
-              </b:loop>
-            </div>
-          </b:if>
+          <div class='post-header'>
+            <b:include data='{ items: [&quot;author&quot;, &quot;timestamp&quot;, &quot;labels&quot;] }' name='headerBylineOverride'/>
+          </div>
         </b:includable>
         
         <b:includable id='postFooter' var='post'>
@@ -1511,7 +1527,7 @@ body.light-theme .homepage-header::before {
         <header class='centered-top-container' role='banner'>
           <div class='centered-top'>
             <div class='blog-name'>
-              <b:section id='header' name='Header' showaddelement='false'>
+              <b:section id='header' name='Header' showaddelement='true'>
                 <b:widget id='Header1' locked='true' title='Assishmon C S (Header)' type='Header' version='2' visible='true'>
                   <b:widget-settings>
                     <b:widget-setting name='displayUrl'/>
@@ -1567,15 +1583,15 @@ body.light-theme .homepage-header::before {
         </header>
 
         <main class='centered-bottom' id='main' role='main'>
-          <b:section ads='true' class='main' id='page_body' name='Page Body' showaddelement='false'>
-            <b:widget id='Blog1' locked='true' title='Blog Posts' type='Blog' version='2' visible='true'>
+          <b:section ads='true' class='main' id='page_body' name='Page Body' showaddelement='true'>
+            <b:widget id='Blog1' locked='false' title='Blog Posts' type='Blog' version='2' visible='true'>
               <b:widget-settings>
                 <b:widget-setting name='showDateHeader'>false</b:widget-setting>
                 <b:widget-setting name='style.textcolor'>#ffffff</b:widget-setting>
                 <b:widget-setting name='showShareButtons'>false</b:widget-setting>
                 <b:widget-setting name='showCommentLink'>false</b:widget-setting>
                 <b:widget-setting name='style.urlcolor'>#ffffff</b:widget-setting>
-                <b:widget-setting name='showAuthor'>false</b:widget-setting>
+                <b:widget-setting name='showAuthor'>true</b:widget-setting>
                 <b:widget-setting name='style.linkcolor'>#ffffff</b:widget-setting>
                 <b:widget-setting name='style.unittype'>TextAndImage</b:widget-setting>
                 <b:widget-setting name='style.bgcolor'>#ffffff</b:widget-setting>
@@ -1585,7 +1601,7 @@ body.light-theme .homepage-header::before {
                 <b:widget-setting name='style.layout'>1x1</b:widget-setting>
                 <b:widget-setting name='showLabels'>true</b:widget-setting>
                 <b:widget-setting name='showLocation'>false</b:widget-setting>
-                <b:widget-setting name='showTimestamp'>false</b:widget-setting>
+                <b:widget-setting name='showTimestamp'>true</b:widget-setting>
                 <b:widget-setting name='postsPerAd'>1</b:widget-setting>
                 <b:widget-setting name='showBacklinks'>false</b:widget-setting>
                 <b:widget-setting name='style.bordercolor'>#ffffff</b:widget-setting>
@@ -1630,7 +1646,6 @@ body.light-theme .homepage-header::before {
   <b:case value='share'/>
     <b:include cond='data:post.shareUrl' name='postShareButtons'/>
   <b:case value='comments'/>
-    <b:include cond='data:post.allowComments' name='postCommentsLink'/>
   <b:case value='location'/>
     <b:include cond='data:post.location' name='postLocation'/>
   <b:case value='timestamp'/>
@@ -1723,11 +1738,6 @@ body.light-theme .homepage-header::before {
   </div>
 </b:includable>
               <b:includable id='commentPicker' var='post'>
-  <b:if cond='data:post.showThreadedComments'>
-    <b:include data='post' name='threadedComments'/>
-  <b:else/>
-    <b:include data='post' name='comments'/>
-  </b:if>
 </b:includable>
               <b:includable id='comments' var='post'>
   <section expr:class='&quot;comments&quot; + (data:post.embedCommentForm ? &quot; embed&quot; : &quot;&quot;)' expr:data-num-comments='data:post.numberOfComments' id='comments'>
@@ -1869,13 +1879,9 @@ body.light-theme .homepage-header::before {
               <b:includable id='googlePlusShare'>
 </b:includable>
               <b:includable id='headerByline'>
-          <b:if cond='data:widgets.Blog.first.allBylineItems.labels and data:post.labels'>
-            <div class='byline post-labels'>
-              <b:loop index='i' values='data:post.labels' var='label'>
-                <a expr:href='data:label.url' rel='tag'><data:label.name/></a>
-              </b:loop>
-            </div>
-          </b:if>
+          <div class='post-header'>
+            <b:include data='{ items: [&quot;author&quot;, &quot;timestamp&quot;, &quot;labels&quot;] }' name='headerBylineOverride'/>
+          </div>
         </b:includable>
               <b:includable id='homePageLink'>
   <a class='home-link' expr:href='data:blog.homepageUrl'>
@@ -1992,9 +1998,6 @@ body.light-theme .homepage-header::before {
       <b:include data='post' name='post'/>
     </div>
 
-    <!-- Comments -->
-    <b:include cond='data:view.isSingleItem' data='post' name='commentPicker'/>
-
     <!-- Show ad inside post container, after comments, if single item. -->
     <b:include cond='data:view.isSingleItem and data:post.includeAd' data='post' name='inlineAd'/>
   </article>
@@ -2003,11 +2006,6 @@ body.light-theme .homepage-header::before {
   <b:include cond='data:view.isMultipleItems and data:post.includeAd' data='post' name='inlineAd'/>
 </b:includable>
               <b:includable id='postCommentsLink'>
-  <b:if cond='data:view.isMultipleItems'>
-    <span class='byline post-comment-link container'>
-      <b:include cond='data:post.commentSource != 1' name='commentsLink'/>
-    </span>
-  </b:if>
 </b:includable>
               <b:includable id='postFooter' var='post'>
            </b:includable>
@@ -2282,7 +2280,6 @@ body.light-theme .homepage-header::before {
   <b:case value='share'/>
     <b:include cond='data:post.shareUrl' name='postShareButtons'/>
   <b:case value='comments'/>
-    <b:include cond='data:post.allowComments' name='postCommentsLink'/>
   <b:case value='location'/>
     <b:include cond='data:post.location' name='postLocation'/>
   <b:case value='timestamp'/>
@@ -2329,7 +2326,7 @@ body.light-theme .homepage-header::before {
           <b:if cond='data:view.isSingleItem and data:widget.type == &quot;Blog&quot;'>
             <b:include name='super.footerBylines'/>
           <b:else/>
-            <b:include data='{ items: [[&quot;share&quot;, &quot;comments&quot;]] }' name='footerBylinesOverride'/>
+            <b:include data='{ items: [[&quot;share&quot;]] }' name='footerBylinesOverride'/>
           </b:if>
         </b:includable>
               <b:includable id='googlePlusShare'>
@@ -2379,9 +2376,6 @@ body.light-theme .homepage-header::before {
   </span>
 </b:includable>
               <b:includable id='postCommentsLink'>
-  <span class='byline post-comment-link container'>
-    <b:include cond='data:post.commentSource != 1' name='commentsLink'/>
-  </span>
 </b:includable>
               <b:includable id='postJumpLink' var='post'>
   <div class='jump-link flat-button'>
@@ -2535,7 +2529,6 @@ body.light-theme .homepage-header::before {
   <b:case value='share'/>
     <b:include cond='data:post.shareUrl' name='postShareButtons'/>
   <b:case value='comments'/>
-    <b:include cond='data:post.allowComments' name='postCommentsLink'/>
   <b:case value='location'/>
     <b:include cond='data:post.location' name='postLocation'/>
   <b:case value='timestamp'/>
@@ -2582,7 +2575,7 @@ body.light-theme .homepage-header::before {
           <b:if cond='data:view.isSingleItem and data:widget.type == &quot;Blog&quot;'>
             <b:include name='super.footerBylines'/>
           <b:else/>
-            <b:include data='{ items: [[&quot;share&quot;, &quot;comments&quot;]] }' name='footerBylinesOverride'/>
+            <b:include data='{ items: [[&quot;share&quot;]] }' name='footerBylinesOverride'/>
           </b:if>
         </b:includable>
               <b:includable id='googlePlusShare'>
@@ -2632,9 +2625,6 @@ body.light-theme .homepage-header::before {
   </span>
 </b:includable>
               <b:includable id='postCommentsLink'>
-  <span class='byline post-comment-link container'>
-    <b:include cond='data:post.commentSource != 1' name='commentsLink'/>
-  </span>
 </b:includable>
               <b:includable id='postJumpLink' var='post'>
   <div class='jump-link flat-button'>
@@ -2757,9 +2747,9 @@ body.light-theme .homepage-header::before {
             </b:widget>
           </b:section>
 
-          <b:if cond='data:view.isSingleItem'>
+          <b:if cond='data:view.isSingleItem or data:view.isLayoutMode'>
             <aside class='sidebar-container' role='complementary'>
-              <b:section id='sidebar' name='Sidebar' preferred='yes'>
+              <b:section id='sidebar' name='Sidebar' preferred='yes' showaddelement='true'>
                 <b:widget id='Profile1' locked='false' title='About Me' type='Profile' version='2' visible='false'>
                   <b:widget-settings>
                     <b:widget-setting name='showaboutme'>true</b:widget-setting>
@@ -3094,7 +3084,7 @@ body.light-theme .homepage-header::before {
          </div>
       </footer>
       
-      <b:section class='footer hidden' id='footer' name='Footer' showaddelement='false' tag='div'/>
+      <b:section class='footer' id='footer' name='Footer' showaddelement='true' tag='div'/>
       
       <!-- Noise Texture Overlay -->
       <div class='noise-overlay'></div>
